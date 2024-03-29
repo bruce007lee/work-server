@@ -14,7 +14,9 @@ def ocr():
     """
     try:
         file = request.files["file"]
-        lang = request.form["lang"]
+        lang = request.form.get("lang")
+        if not lang:
+            lang = "ch"
         image = Image.open(file)
         data = ocrService.recognize(img=np.array(image), lang=lang)
         return {"success": True, "data": data}
