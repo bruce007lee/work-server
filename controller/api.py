@@ -3,11 +3,14 @@ from PIL import Image
 import numpy as np
 from service import ocr as ocrService
 
-app = Blueprint('api', __name__)
+app = Blueprint("api", __name__)
 
-@app.route('/ocr', methods=['GET', 'POST'])
+@app.route("/ocr", methods=["GET", "POST"])
 def ocr():
-    file = request.files['file']
-    image = Image.open(file)
-    data = ocrService.recognize(np.array(image))
-    return data
+    try:
+        file = request.files["file"]
+        image = Image.open(file)
+        data = ocrService.recognize(np.array(image))
+        return {"success": True, "data": data}
+    except:
+        return {"success": False, "errorMessage": "Recognize error"}
