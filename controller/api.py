@@ -5,6 +5,9 @@ from service import ocr as ocrService
 
 app = Blueprint("api", __name__)
 
+"""
+文字识别接口
+"""
 @app.route("/ocr", methods=["GET", "POST"])
 def ocr():
     try:
