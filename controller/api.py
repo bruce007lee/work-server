@@ -8,7 +8,7 @@ app = Blueprint("api", __name__)
 """
 文字识别接口
 """
-@app.route("/ocr", methods=["GET", "POST"])
+@app.route("/ocr", methods=["POST"])
 def ocr():
     try:
         file = request.files["file"]
