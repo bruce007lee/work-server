@@ -16,4 +16,5 @@ def ocr():
         data = ocrService.recognize(np.array(image))
         return {"success": True, "data": data}
     except:
+        app.logger.error('Recognize error [%s]', file.filename)
         return {"success": False, "errorMessage": "Recognize error"}
