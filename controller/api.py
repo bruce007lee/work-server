@@ -19,7 +19,7 @@ def ocr():
             lang = "ch"
         image = Image.open(file)
         data = ocrService.recognize(img=np.array(image), lang=lang)
-        return {"success": True, "data": data}
+        return {"success": True, "data": data[0]}
     except:
         logger.error("Recognize error [%s]", file.filename)
         return {"success": False, "errorMessage": "Recognize error"}
