@@ -7,10 +7,10 @@ from utils.logger import logger
 app = Blueprint("api", __name__)
 
 
-@app.route("/ocr", methods=["POST"])
+@app.route("/api/ocr", methods=["POST"])
 def ocr():
     """
-    文字识别接口
+    文字识别接口å
     """
     try:
         file = request.files["file"]
