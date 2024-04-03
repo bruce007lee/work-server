@@ -1,25 +1,24 @@
-from flask import Blueprint, request
 from PIL import Image
 import numpy as np
+from io import BytesIO
 from service import ocr as ocrService
 from utils.logger import logger
+from fastapi import APIRouter, UploadFile
 
-app = Blueprint("api", __name__)
+router = APIRouter()
 
 
-@app.route("/api/ocr", methods=["POST"])
-def ocr():
+@router.post("/api/ocr")
+async def ocr(file: UploadFile, lang: str = "ch"):
     """
     文字识别接口
     """
     try:
-        file = request.files["file"]
-        lang = request.form.get("lang")
-        if not lang:
-            lang = "ch"
-        image = Image.open(file)
+        content = await file.read()
+        io = BytesIO(content)
+        image = Image.open(io)
         data = ocrService.recognize(img=np.array(image), lang=lang)
         return {"success": True, "data": data[0]}
-    except:
-        logger.error("Recognize error [%s]", file.filename)
+    except Exception as e:
+        logger.error("Recognize error: %s", e)
         return {"success": False, "errorMessage": "Recognize error"}

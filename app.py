@@ -1,11 +1,7 @@
-from flask import Flask
-from controller import api, main
+from fastapi import FastAPI
+from controller import main, api
 
-app = Flask(__name__)
+app = FastAPI()
 
-app.register_blueprint(main.app)
-app.register_blueprint(api.app)
-
-if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=5001)
+app.include_router(main.router)
+app.include_router(api.router)

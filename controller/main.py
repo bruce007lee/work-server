@@ -1,7 +1,9 @@
-from flask import Blueprint
+from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
 
-app = Blueprint("main", __name__)
+router = APIRouter()
 
-@app.route("/")
-def index():
-    return "demo"
+
+@router.get("/")
+async def main():
+    return HTMLResponse("working")
