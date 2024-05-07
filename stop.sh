@@ -13,9 +13,9 @@ if [ ! -z "$PID" ]; then
     
     # 检查进程是否被成功杀死
     if sudo kill -0 $PID > /dev/null 2>&1; then
-        echo "进程 $PID 未能被杀死。"
-    else
         echo "进程 $PID 已被杀死。"
+    else
+        echo "进程 $PID 未能被杀死。"
     fi
 else
     echo "没有发现占用端口 $PORT 的进程。"
