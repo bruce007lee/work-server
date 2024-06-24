@@ -24,7 +24,7 @@ async def ocr(file: UploadFile, lang: str = "ch"):
 
 
 @router.post("/api/recognizeImageColor")
-async def recognizeImageColor(file: UploadFile, lang: str = "ch"):
+async def recognizeImageColor(file: UploadFile):
     """
     图像颜色识别
     """
