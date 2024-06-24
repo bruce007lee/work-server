@@ -2,7 +2,8 @@ from PIL import Image
 import numpy as np
 from sklearn.cluster import KMeans
 import colorsys
-import json
+
+# import json
 
 # 色值表
 palette1 = [
@@ -58,11 +59,11 @@ def RGBhistogram(clt: KMeans):
     return hist
 
 
-def recognizeImageColor(img: Image):
+def recognizeImageColor(img: Image, colorCount: int = 5):
     img = img.resize((img.width // 2, img.height // 2), resample=Image.BILINEAR)
     pixels = np.array(img)
     pixels = pixels.reshape((-1, 3))
-    kmeans = KMeans(n_clusters=5, random_state=0, n_init="auto").fit(pixels)
+    kmeans = KMeans(n_clusters=colorCount, random_state=0, n_init="auto").fit(pixels)
     cluster_centers = np.uint8(kmeans.cluster_centers_)
     # print(cluster_centers)
     hist = RGBhistogram(kmeans)
@@ -79,5 +80,5 @@ def recognizeImageColor(img: Image):
         }
         result.append(item)
     result.sort(key=lambda x: x["percentage"], reverse=True)
-    print(json.dumps(result, indent=4))
-    return result
+    # print(json.dumps(result, indent=4))
+    return {"colorTemplateList": result}

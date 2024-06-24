@@ -24,7 +24,7 @@ async def ocr(file: UploadFile, lang: str = "ch"):
 
 
 @router.post("/api/recognizeImageColor")
-async def recognizeImageColor(file: UploadFile):
+async def recognizeImageColor(file: UploadFile, colorCount: int = 5):
     """
     图像颜色识别
     """
@@ -32,7 +32,7 @@ async def recognizeImageColor(file: UploadFile):
         content = await file.read()
         io = BytesIO(content)
         img = Image.open(io)
-        data = imageService.recognizeImageColor(img)
+        data = imageService.recognizeImageColor(img, colorCount)
         return {"success": True, "data": data}
     except Exception as e:
         logger.error("RecognizeImageColor error: %s", e)
