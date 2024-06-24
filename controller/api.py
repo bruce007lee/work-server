@@ -3,12 +3,13 @@ import numpy as np
 from io import BytesIO
 from service import image as imageService, ocr as ocrService
 from utils.logger import logger
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, Form
 
 router = APIRouter()
 
+
 @router.post("/api/ocr")
-async def ocr(file: UploadFile, lang: str = "ch"):
+async def ocr(file: UploadFile, lang: str = Form(default="ch")):
     """
     文字识别接口
     """
@@ -24,7 +25,7 @@ async def ocr(file: UploadFile, lang: str = "ch"):
 
 
 @router.post("/api/recognizeImageColor")
-async def recognizeImageColor(file: UploadFile, colorCount: int = 5):
+async def recognizeImageColor(file: UploadFile, colorCount: int = Form(default=5)):
     """
     图像颜色识别
     """
