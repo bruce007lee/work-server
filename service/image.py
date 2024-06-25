@@ -75,7 +75,7 @@ def recognizeImageColor(img: Image, colorCount: int = 5):
         )
         item = {
             "color": color,
-            "percentage": round(hist[i]),
+            "percentage": round(hist[i], 6),
             "label": getApproximateColor(color),
         }
         result.append(item)
