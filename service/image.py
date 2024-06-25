@@ -61,13 +61,11 @@ def RGBhistogram(clt: KMeans):
 
 def recognizeImageColor(img: Image, colorCount: int = 5):
     img = img.resize((img.width // 2, img.height // 2), resample=Image.BILINEAR)
-    img = img.convert("RGBA")
-
-    pixels = np.array(img)
+ 
+    pixels = np.array(img.convert("RGBA"))
+    pixels = pixels.reshape((-1, 4))
     filter = np.array([0])
     pixels = pixels[np.isin(pixels[:, 3], filter, invert=True)]
-
-    pixels = pixels.reshape((-1, 4))
     pixels = np.delete(pixels, np.s_[3:], 1)
 
     kmeans = KMeans(n_clusters=colorCount, random_state=0, n_init="auto").fit(pixels)
