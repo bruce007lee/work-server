@@ -56,7 +56,7 @@ def RGBhistogram(clt: KMeans):
     (hist, _) = np.histogram(clt.labels_, bins=numLabels)
     hist = hist.astype("float")
     hist /= hist.sum()
-    return hist
+    return round(hist, 6)
 
 
 def recognizeImageColor(img: Image, colorCount: int = 5):
