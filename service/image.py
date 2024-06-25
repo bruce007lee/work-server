@@ -56,7 +56,7 @@ def RGBhistogram(clt: KMeans):
     (hist, _) = np.histogram(clt.labels_, bins=numLabels)
     hist = hist.astype("float")
     hist /= hist.sum()
-    return round(hist, 6)
+    return hist
 
 
 def recognizeImageColor(img: Image, colorCount: int = 5):
@@ -75,7 +75,7 @@ def recognizeImageColor(img: Image, colorCount: int = 5):
         )
         item = {
             "color": color,
-            "percentage": hist[i],
+            "percentage": round(hist[i]),
             "label": getApproximateColor(color),
         }
         result.append(item)
