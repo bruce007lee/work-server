@@ -26,10 +26,10 @@ palette2 = [
 ]
 
 
-def getDiffer(c1, c2):
-    return sum((c1[i] - c2[i]) ** 2 for i in range(3))
+# def getDiffer(c1, c2):
+#     return sum((c1[i] - c2[i]) ** 2 for i in range(3))
 
-def getDiffer2(c1, c2):
+def getDiffer(c1, c2):
     return deltaE(np.array(c1)[:3], np.array(c2)[:3], input_space="sRGB255")
 
 def getApproximateColor(color):
