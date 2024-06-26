@@ -2,6 +2,7 @@ from PIL import Image
 import numpy as np
 from sklearn.cluster import KMeans
 import colorsys
+from colorspacious import deltaE
 
 # import json
 
@@ -25,6 +26,12 @@ palette2 = [
 ]
 
 
+def getDiffer(c1, c2):
+    return sum((c1[i] - c2[i]) ** 2 for i in range(3))
+
+def getDiffer2(c1, c2):
+    return deltaE(np.array(c1)[:3], np.array(c2)[:3], input_space="sRGB255")
+
 def getApproximateColor(color):
     # color = color.strip('#')
     color = [int(color[i : i + 2], 16) for i in range(0, len(color), 2)]
@@ -33,18 +40,19 @@ def getApproximateColor(color):
 
     min_distance = 100000
     closest_color = None
-    hsv = colorsys.rgb_to_hsv(*color[:3])
+    rgb = color[:3]
+    hsv = colorsys.rgb_to_hsv(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255)
     if hsv[1] * 100 < 10:
         # 灰度色
         for pcolor in palette2:
-            distance = sum((pcolor["value"][i] - color[i]) ** 2 for i in range(3))
+            distance = getDiffer(pcolor["value"], color)
             if distance < min_distance:
                 min_distance = distance
                 closest_color = pcolor["key"]
     else:
         # 彩色
         for pcolor in palette1:
-            distance = sum((pcolor["value"][i] - color[i]) ** 2 for i in range(3))
+            distance = getDiffer(pcolor["value"], color)
             if distance < min_distance:
                 min_distance = distance
                 closest_color = pcolor["key"]
@@ -61,7 +69,7 @@ def RGBhistogram(clt: KMeans):
 
 def recognizeImageColor(img: Image, colorCount: int = 5):
     img = img.resize((img.width // 2, img.height // 2), resample=Image.BILINEAR)
- 
+
     pixels = np.array(img.convert("RGBA"))
     pixels = pixels.reshape((-1, 4))
     filter = np.array([0])

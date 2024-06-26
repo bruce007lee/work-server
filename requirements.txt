@@ -1,2 +1,4 @@
 fastapi
 scikit-learn
+colorspacious
+colorsys
