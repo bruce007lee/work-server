@@ -26,11 +26,25 @@ palette2 = [
 ]
 
 
+def getFitSize(img: Image, max_size: int = 1024):
+    width, height = img.size
+    if width > height:
+        if width > max_size:
+            height = int(height * max_size / width)
+            width = max_size
+    else:
+        if height > max_size:
+            width = int(width * max_size / height)
+            height = max_size
+    return (width, height)
+
+
 # def getDiffer(c1, c2):
 #     return sum((c1[i] - c2[i]) ** 2 for i in range(3))
 
 def getDiffer(c1, c2):
     return deltaE(np.array(c1)[:3], np.array(c2)[:3], input_space="sRGB255")
+
 
 def getApproximateColor(color):
     # color = color.strip('#')
@@ -68,7 +82,8 @@ def RGBhistogram(clt: KMeans):
 
 
 def recognizeImageColor(img: Image, colorCount: int = 5):
-    img = img.resize((img.width // 2, img.height // 2), resample=Image.BILINEAR)
+    size = getFitSize(img)
+    img = img.resize((size[0], size[1]), resample=Image.BILINEAR)
 
     pixels = np.array(img.convert("RGBA"))
     pixels = pixels.reshape((-1, 4))
