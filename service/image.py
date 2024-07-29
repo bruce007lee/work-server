@@ -97,7 +97,7 @@ def recognizeImageColor(img: Image, colorCount: int = 5):
     hist = RGBhistogram(kmeans)
     # print(hist)
     result = []
-    for i in range(len(cluster_centers)):
+    for i in range(len(hist)):
         color = "{:02X}{:02X}{:02X}".format(
             cluster_centers[i][0], cluster_centers[i][1], cluster_centers[i][2]
         )
